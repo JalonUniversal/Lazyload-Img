@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<meta charset="utf-8">
+	<title>Test 懒加载</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<style type="text/css">
+	*{margin:0;padding:0;}
+	a{text-decoration:none;}
+	ul{list-style: none}
+	#container{
+		border:1px solid red;
+	}
+	#list li{
+		margin-bottom:100px;
+	}
+	.lazyPic{
+		display:block;
+		width:100%;
+		height:200px;
+		transition:all 0.34s;
+	}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<ul id="list">
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg">
+			</li>
+			
+			<li>
+				<img class="lazyPic" src="" data-src="./lazy.jpg" id="target" style="border-top:1px solid red;border-bottom:1px solid red">
+			</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript">
+	window.onload=function(){
+		var imgArr=[],
+			n=1,
+			imgs = document.getElementsByTagName('img');
+		var target = document.getElementById('target');
+		var viewHeight = document.documentElement.clientHeight;
+		function throttle(method, context) {
+		     clearTimeout(method.tId);
+		     method.tId = setTimeout(function(){
+		         method.call(context);
+		     }, 400);
+		}
+		function showPic(){
+			var scrollHeight = document.body.scrollTop;
+			for(var k=0;k<imgs.length;k++){
+				if(scrollHeight+viewHeight>imgs[k].offsetTop){
+					imgs[k].src = imgs[k].getAttribute('data-src');
+				}
+			}
+		}
+		window.onscroll=function(){
+			throttle(showPic,200);
+		}
+	}
+</script>
+</html>
